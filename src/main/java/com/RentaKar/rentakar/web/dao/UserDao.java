@@ -8,6 +8,12 @@ import java.util.List;
 @Repository
 public interface UserDao {
     List<User> findAll();
+
     User findById(int id);
+
     User save(User user);
+
+    User updateUser(int id, User user);
+
+    User deleteUser(int id);
 }

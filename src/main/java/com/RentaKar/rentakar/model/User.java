@@ -12,10 +12,11 @@ public class User {
     private String dateOfBirth;
 
     // Constructeur
-    public User(){
+    public User() {
 
     }
-    public User(int id,String username, String firstname, int licenceid, String dateOfBirth) {
+
+    public User(int id, String username, String firstname, int licenceid, String dateOfBirth) {
         this.id = id;
         this.username = username;
         this.firstname = firstname;
@@ -43,6 +44,7 @@ public class User {
     public String getDateOfBirth() {
         return dateOfBirth;
     }
+
     // Setter
     public void setId(int id) {
         this.id = id;
@@ -65,12 +67,12 @@ public class User {
     }
 
     // Methodes Specifiques
-    public String toString(){
-        return "User{"+
-                "|| Id = "+ id +
-                "|| Prénom = "+ username +
-                "|| Nom = "+ firstname +
-                "|| Date de naissance = " +dateOfBirth+
+    public String toString() {
+        return "User{" +
+                "|| Id = " + id +
+                "|| Prénom = " + username +
+                "|| Nom = " + firstname +
+                "|| Date de naissance = " + dateOfBirth +
                 "|| N° de Permis = " + licenceid +
                 '}';
     }
