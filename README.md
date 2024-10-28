@@ -10,3 +10,8 @@ Exercices SpringBoot microservices, allowing me to use Spring-Boot Framework
     - Spring Web MVC
     - Spring Security with JWT
     
+## How to run 
+
+1. Launch rentakar on Intellij 
+2. Launch GP_JAVA_AVANCE on a second Intellij IDE and start it up !! 
+3. 
