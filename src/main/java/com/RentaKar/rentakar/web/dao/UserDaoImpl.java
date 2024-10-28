@@ -14,6 +14,11 @@ public class UserDaoImpl implements UserDao {
         users.add(new User(1, "Robert", "Deplante", 499865, "25.10.1980"));
         users.add(new User(2, "Jhon", "Dumoulin", 599862, "17.02.1996"));
         users.add(new User(3, "Maîté", "Pasla", 599684, "01.05.1968"));
+        users.add(new User(4, "Alice", "Dupont", 123456, "10.02.1990"));
+        users.add(new User(5, "Bob", "Martin", 234567, "15.06.1985"));
+        users.add(new User(6, "Maîté", "Pasla", 599684, "01.05.1968"));
+        users.add(new User(7, "Charles", "Durand", 345678, "20.11.1978"));
+        users.add(new User(8, "Emma", "Leroy", 456789, "25.12.2000"));
     }
 
     @Override
@@ -37,16 +42,15 @@ public class UserDaoImpl implements UserDao {
         return user;
     }
 
-    @Override
-    public User updateUser(int id, User user) {
-        users.set(id, user);
-        return user;
-    }
 
     @Override
     public User deleteUser(int id) {
-        users.remove(id);
-        return null;
+        for (User user : users) {
+            if (user.getId() == id) {
+                users.remove(user);
+                return user;
+            }
+        }
+    return null;
     }
-
 }
