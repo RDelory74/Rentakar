@@ -1,14 +1,24 @@
 package com.RentaKar.rentakar.model;
 
-import java.util.Date;
-import java.util.UUID;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 
+
+//@JsonFilter("monFiltreDynamique")
+@Entity
 public class User {
     //Attributs
+    @Id
+    @Column(name = "id", nullable = false)
     private int id;
+    @Column(name = "username",nullable = false)
     private String username;
+    @Column(name = "firstname",nullable = false)
     private String firstname;
+    @Column(name = "licenceId")
     private int licenceid;
+    @Column(name = "Date_Of_Birth")
     private String dateOfBirth;
 
     // Constructeur

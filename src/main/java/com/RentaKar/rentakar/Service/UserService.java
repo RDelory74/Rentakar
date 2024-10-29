@@ -1,6 +1,8 @@
 package com.RentaKar.rentakar.Service;
 
 
+import com.RentaKar.rentakar.exceptions.LicenseNotValid;
+import com.RentaKar.rentakar.exceptions.UserNotFoundException;
 import com.RentaKar.rentakar.model.User;
 import com.RentaKar.rentakar.web.dao.UserDao;
 import org.springframework.stereotype.Service;
@@ -11,6 +13,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -28,9 +31,15 @@ public class UserService {
     }
 
     public User getUserById(int id) {
-        System.out.print("User with id: " + id + " found  ||");
-        return userDao.findById(id);
+        User user = userDao.findById(id).orElse(null);
+        if(user != null) {
+            System.out.print("User with id: " + id + " found  ||");
+            return user;
+        }
+        System.out.print("User with id: " + id + " not found");
+        return null;
     }
+
 
     public User saveUser(User user) {
         try {
@@ -43,14 +52,15 @@ public class UserService {
                 System.out.print("Creating User cancelled ||");
             }
         } catch (URISyntaxException e) {
-            throw new RuntimeException(e);
+            throw new LicenseNotValid("Votre License n'est pas valide");
         }
         return null;
     }
 
     public User updateUserById(int id, User user) {
-        User updatedUser = userDao.findById(id);
-        userDao.deleteUser(id);
+        User updatedUser = userDao.findById(id).orElse(null);
+        if (updatedUser != null) {
+        userDao.deleteById(id);
         updatedUser.setFirstname(user.getFirstname());
         updatedUser.setUsername(user.getUsername());
         updatedUser.setLicenceid(user.getLicenceid());
@@ -65,16 +75,25 @@ public class UserService {
                 System.out.print("Creating User cancelled ||");
             }
         } catch (URISyntaxException e) {
-            throw new RuntimeException(e);
+            throw new LicenseNotValid("Votre licence n'est pas valide");
+        }
         }
         return null;
     }
 
     public User deleteUser(int id) {
-        userDao.deleteUser(id);
-        System.out.print("User with id: " + id + " deleted ||");
-        return null;
+        User user = userDao.findById(id).orElse(null);
+        if (user != null) {
+            System.out.print("User with id: " + id + " found  ||");
+            userDao.deleteById(id);
+            System.out.print("User with id: " + id + " deleted ||");
+            return null;
+        } else {
+            System.out.print("User with id: " + id + " not found");
+            return null;
+        }
     }
+
 
 
     public boolean checkLicence(User user) throws URISyntaxException {
