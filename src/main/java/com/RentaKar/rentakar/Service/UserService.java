@@ -33,7 +33,7 @@ public class UserService {
     public User getUserById(int id) {
         User user = userDao.findById(id).orElse(null);
         if(user != null) {
-            System.out.print("User with id: " + id + " found  ||");
+            System.out.println("User with id: " + id + " found  ||");
             return user;
         }
         System.out.print("User with id: " + id + " not found");
@@ -48,13 +48,13 @@ public class UserService {
                 System.out.print("User " + user.getFirstname() + " created ||");
                 return userDao.save(user);
             } else {
-                System.out.print("License ID is not correct ||");
-                System.out.print("Creating User cancelled ||");
+                System.out.println("License ID is not correct ||");
+                System.out.println("Creating User cancelled ||");
             }
         } catch (URISyntaxException e) {
             throw new LicenseNotValid("Votre License n'est pas valide");
         }
-        return null;
+        return userDao.save(user);
     }
 
     public User updateUserById(int id, User user) {
@@ -67,29 +67,29 @@ public class UserService {
         updatedUser.setDateOfBirth(user.getDateOfBirth());
         try {
             if (checkLicence(updatedUser)) {
-                System.out.print("License n° " + user.getLicenceid() + " Accepted ||");
-                System.out.print("User with id: " + id + " updated ||");
+                System.out.println("License n° " + user.getLicenceid() + " Accepted ||");
+                System.out.println("User with id: " + id + " updated ||");
                 return userDao.save(updatedUser);
             } else {
-                System.out.print("License ID is not correct ||");
-                System.out.print("Creating User cancelled ||");
+                System.out.println("License ID is not correct ||");
+                System.out.println("Creating User cancelled ||");
             }
         } catch (URISyntaxException e) {
             throw new LicenseNotValid("Votre licence n'est pas valide");
         }
         }
-        return null;
+        return userDao.save(updatedUser);
     }
 
     public User deleteUser(int id) {
         User user = userDao.findById(id).orElse(null);
         if (user != null) {
-            System.out.print("User with id: " + id + " found  ||");
+            System.out.println("User with id: " + id + " found  ||");
             userDao.deleteById(id);
-            System.out.print("User with id: " + id + " deleted ||");
+            System.out.println("User with id: " + id + " deleted ||");
             return null;
         } else {
-            System.out.print("User with id: " + id + " not found");
+            System.out.println("User with id: " + id + " not found");
             return null;
         }
     }
@@ -99,7 +99,7 @@ public class UserService {
     public boolean checkLicence(User user) throws URISyntaxException {
         String LicenceToCheck = String.valueOf(user.getLicenceid());
         URI uri = UriComponentsBuilder
-                .fromUriString("http://localhost:8081/licenses/{licenceId}")
+                .fromUriString("http://localhost:8081/licenses/{licenceid}")
                 .buildAndExpand(LicenceToCheck)
                 .toUri();
         RestTemplate restTemplate = new RestTemplate();

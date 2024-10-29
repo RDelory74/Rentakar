@@ -1,1 +1,1 @@
-INSERT INTO LocationVehicule.user (`id`, `username`,`firstname`,`licenceId`,`Date_Of_Birth`) VALUES(1, 'Robert', 'Deplante', 499865, '25.10.1980');
+INSERT INTO LocationVehicule.user (id, username, firstname, licence_id, date_of_birth) VALUES (1, 'Robert', 'Deplante', 499865, '1980-10-25');

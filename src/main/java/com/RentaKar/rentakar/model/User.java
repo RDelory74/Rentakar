@@ -16,7 +16,7 @@ public class User {
     private String username;
     @Column(name = "firstname",nullable = false)
     private String firstname;
-    @Column(name = "licenceId")
+    @Column(name = "licence_id")
     private int licenceid;
     @Column(name = "Date_Of_Birth")
     private String dateOfBirth;
