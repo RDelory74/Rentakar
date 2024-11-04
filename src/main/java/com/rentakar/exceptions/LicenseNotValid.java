@@ -1,4 +1,4 @@
-package com.RentaKar.rentakar.exceptions;
+package com.rentakar.exceptions;
 
 public class LicenseNotValid extends RuntimeException {
     public LicenseNotValid(String message) {

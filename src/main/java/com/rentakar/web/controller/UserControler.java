@@ -1,11 +1,10 @@
-package com.RentaKar.rentakar.web.controller;
+package com.rentakar.web.controller;
 
-import com.RentaKar.rentakar.Service.UserService;
-import com.RentaKar.rentakar.model.User;
+import com.rentakar.service.UserService;
+import com.rentakar.model.User;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 public class UserControler {
@@ -35,9 +34,14 @@ public class UserControler {
     public User updateUser(@PathVariable int id, @RequestBody User user) {
         return userService.updateUserById(id, user);
     }
-    @DeleteMapping("Users/{id}")
+    @DeleteMapping("User/{id}")
     public User deleteUser(@PathVariable int id) {
         userService.deleteUser(id);
         return null;
     }
+    @GetMapping("/User/{id}/{order}"){
+
+    }
+
+
 }

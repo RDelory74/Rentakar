@@ -1,10 +1,14 @@
-package com.RentaKar.rentakar.Service;
+package com.rentakar.service;
 
 
-import com.RentaKar.rentakar.exceptions.LicenseNotValid;
-import com.RentaKar.rentakar.exceptions.UserNotFoundException;
-import com.RentaKar.rentakar.model.User;
-import com.RentaKar.rentakar.web.dao.UserDao;
+import com.rentakar.exceptions.LicenseNotValid;
+import com.rentakar.model.User;
+import com.rentakar.model.Order;
+import com.rentakar.web.dao.UserDao;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -13,12 +17,15 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class UserService {
-
+    @Autowired
     private final UserDao userDao;
+    private final String orderServiceUrl = "http://localhost:9092/orders";
+    private final String vehiculeServiceUrl = "http://localhost:9091/vehicules";
+    private final RestTemplate restTemplate = new RestTemplate();
+
 
     //injection
     public UserService(UserDao userDao) {
@@ -105,6 +112,17 @@ public class UserService {
         RestTemplate restTemplate = new RestTemplate();
         boolean LicenceChecked = Boolean.TRUE.equals(restTemplate.getForObject(uri, Boolean.class));
         return LicenceChecked;
+    }
+
+    public List<Order> getOrdersByUserId(int id) {
+        String url = orderServiceUrl + "/?userId=" + id;
+        ResponseEntity<List<Order>> response = restTemplate.exchange(
+                url,
+                HttpMethod.GET,
+                null,
+                new ParameterizedTypeReference<List<Order>>() {}
+        );
+        return response.getBody();
     }
 }
 

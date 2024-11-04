@@ -1,4 +1,4 @@
-package com.RentaKar.rentakar;
+package com.rentakar;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
