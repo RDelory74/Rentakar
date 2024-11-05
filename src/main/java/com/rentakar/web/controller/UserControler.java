@@ -39,7 +39,8 @@ public class UserControler {
     public User deleteUser(@PathVariable int id) {
         userService.deleteUser(id);
         return null;
-    }/// A refaire
+    }
+
     @GetMapping("/{id}/orders")
     public List<Order> orders(@PathVariable int id) {
         return userService.getOrdersByUserId(id);

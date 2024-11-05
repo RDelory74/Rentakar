@@ -4,8 +4,10 @@ package com.rentakar.service;
 import com.rentakar.exceptions.LicenseNotValid;
 import com.rentakar.model.User;
 import com.rentakar.model.Order;
+import com.rentakar.model.Vehicule;
 import com.rentakar.web.dao.UserDao;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -16,19 +18,29 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Collections;
 import java.util.List;
 
 @Service
 public class UserService {
     @Autowired
     private final UserDao userDao;
-    private final String orderServiceUrl = "http://localhost:9093/orders";
-    private final String vehiculeServiceUrl = "http://localhost:9091/vehicules";
-    private final RestTemplate restTemplate = new RestTemplate();
+    private final RestTemplate restTemplate;
+
+    @Value("${service.order.url}")
+    private String orderServiceUrl;
+
+    @Value("${service.vehicle.url}")
+    private String vehicleServiceUrl;
+
+    @Value("${service.license.url}")
+    private String licenseServiceUrl;
 
 
     //injection
-    public UserService(UserDao userDao) {
+    @Autowired
+    public UserService(UserDao userDao, RestTemplate restTemplate) {
+        this.restTemplate = restTemplate;
         this.userDao = userDao;
     }
 
@@ -39,7 +51,7 @@ public class UserService {
 
     public User getUserById(int id) {
         User user = userDao.findById(id).orElse(null);
-        if(user != null) {
+        if (user != null) {
             System.out.println("User with id: " + id + " found  ||");
             return user;
         }
@@ -67,23 +79,23 @@ public class UserService {
     public User updateUserById(int id, User user) {
         User updatedUser = userDao.findById(id).orElse(null);
         if (updatedUser != null) {
-        userDao.deleteById(id);
-        updatedUser.setFirstname(user.getFirstname());
-        updatedUser.setUsername(user.getUsername());
-        updatedUser.setLicenceid(user.getLicenceid());
-        updatedUser.setDateOfBirth(user.getDateOfBirth());
-        try {
-            if (checkLicence(updatedUser)) {
-                System.out.println("License n° " + user.getLicenceid() + " Accepted ||");
-                System.out.println("User with id: " + id + " updated ||");
-                return userDao.save(updatedUser);
-            } else {
-                System.out.println("License ID is not correct ||");
-                System.out.println("Creating User cancelled ||");
+            userDao.deleteById(id);
+            updatedUser.setFirstname(user.getFirstname());
+            updatedUser.setUsername(user.getUsername());
+            updatedUser.setLicenceid(user.getLicenceid());
+            updatedUser.setDateOfBirth(user.getDateOfBirth());
+            try {
+                if (checkLicence(updatedUser)) {
+                    System.out.println("License n° " + user.getLicenceid() + " Accepted ||");
+                    System.out.println("User with id: " + id + " updated ||");
+                    return userDao.save(updatedUser);
+                } else {
+                    System.out.println("License ID is not correct ||");
+                    System.out.println("Creating User cancelled ||");
+                }
+            } catch (URISyntaxException e) {
+                throw new LicenseNotValid("Votre licence n'est pas valide");
             }
-        } catch (URISyntaxException e) {
-            throw new LicenseNotValid("Votre licence n'est pas valide");
-        }
         }
         return userDao.save(updatedUser);
     }
@@ -102,7 +114,6 @@ public class UserService {
     }
 
 
-
     public boolean checkLicence(User user) throws URISyntaxException {
         String LicenceToCheck = String.valueOf(user.getLicenceid());
         URI uri = UriComponentsBuilder
@@ -115,40 +126,21 @@ public class UserService {
     }
 
 
-
-        public List<Order> getOrdersByUserId(int userId) {
-            String url = "http://localhost:9093/orders/" + userId;
-            ResponseEntity<Object> response = restTemplate.exchange(
+    public List<Order> getOrdersByUserId(int userId) {
+        try {
+            String url = orderServiceUrl + "/user/" + userId;
+            ResponseEntity<List<Order>> response = restTemplate.exchange(
                     url,
                     HttpMethod.GET,
                     null,
-                    Object.class
+                    new ParameterizedTypeReference<List<Order>>() {
+                    }
             );
-            return List<Object>;
+            return response.getBody();
+        } catch (Exception e) {
+            System.err.println("Erreur lors de la récupération des commandes: " + e.getMessage());
+            return Collections.emptyList();
         }
+    }
 
-     }
-
-/**
- *  public boolean vehicleExists(int userId) {
- *
- *         Order order = restTemplate.getForObject("http://localhost:9093/orders/" + userId, Order.class);
- *         if (vehicle != null) {
- *             return true;
- *         } else {
- *             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Vehicle not found");
- *         }
- *     }
- *
- *
- public List<Order> getOrdersByUserId(int userId) {
- String url = "http://localhost:9093/orders/" + userId;
- ResponseEntity<Object> response = restTemplate.exchange(
- url,
- HttpMethod.GET,
- null,
- Object.class
- );
- return List<Object>;
- }
- */
+}
