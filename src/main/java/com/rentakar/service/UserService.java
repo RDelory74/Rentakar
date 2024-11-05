@@ -22,7 +22,7 @@ import java.util.List;
 public class UserService {
     @Autowired
     private final UserDao userDao;
-    private final String orderServiceUrl = "http://localhost:9092/orders";
+    private final String orderServiceUrl = "http://localhost:9093/orders";
     private final String vehiculeServiceUrl = "http://localhost:9091/vehicules";
     private final RestTemplate restTemplate = new RestTemplate();
 
@@ -114,15 +114,41 @@ public class UserService {
         return LicenceChecked;
     }
 
-    public List<Order> getOrdersByUserId(int id) {
-        String url = orderServiceUrl + "/?userId=" + id;
-        ResponseEntity<List<Order>> response = restTemplate.exchange(
-                url,
-                HttpMethod.GET,
-                null,
-                new ParameterizedTypeReference<List<Order>>() {}
-        );
-        return response.getBody();
-    }
-}
 
+
+        public List<Order> getOrdersByUserId(int userId) {
+            String url = "http://localhost:9093/orders/" + userId;
+            ResponseEntity<Object> response = restTemplate.exchange(
+                    url,
+                    HttpMethod.GET,
+                    null,
+                    Object.class
+            );
+            return List<Object>;
+        }
+
+     }
+
+/**
+ *  public boolean vehicleExists(int userId) {
+ *
+ *         Order order = restTemplate.getForObject("http://localhost:9093/orders/" + userId, Order.class);
+ *         if (vehicle != null) {
+ *             return true;
+ *         } else {
+ *             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Vehicle not found");
+ *         }
+ *     }
+ *
+ *
+ public List<Order> getOrdersByUserId(int userId) {
+ String url = "http://localhost:9093/orders/" + userId;
+ ResponseEntity<Object> response = restTemplate.exchange(
+ url,
+ HttpMethod.GET,
+ null,
+ Object.class
+ );
+ return List<Object>;
+ }
+ */

@@ -33,7 +33,7 @@ public class User {
     @Column(name = "email")
     private String email;
     @Column(name = "phone")
-    private int phone;
+    private String phone;
     @Column(name = "role")
     private String role;
     @Column(name = "password")
@@ -49,7 +49,7 @@ public class User {
 
     }
 
-    public User(int id, String username, String firstname, int licenceid, LocalDate licenceyear, LocalDate dateOfBirth, String address, String postCode, String email, int phone, String role, int password, int orderId, int vehiculeId) {
+    public User(int id, String username, String firstname, int licenceid, LocalDate licenceyear, LocalDate dateOfBirth, String address, String postCode, String email, String phone, String role, int password, int orderId, int vehiculeId) {
         this.id = id;
         this.username = username;
         this.firstname = firstname;
@@ -141,11 +141,11 @@ public class User {
         this.email = email;
     }
 
-    public int getPhone() {
+    public String getPhone() {
         return phone;
     }
 
-    public void setPhone(int phone) {
+    public void setPhone(String phone) {
         this.phone = phone;
     }
 
