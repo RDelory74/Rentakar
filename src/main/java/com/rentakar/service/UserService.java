@@ -18,6 +18,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
 
@@ -57,6 +58,11 @@ public class UserService {
         }
         System.out.print("User with id: " + id + " not found");
         return null;
+    }
+
+    public LocalDate getUserDOBById(int id){
+        System.out.print("Fetching user DOB for user "+id+" ||");
+        return userDao.getDateOfBirth(id);
     }
 
 
@@ -127,7 +133,7 @@ public class UserService {
 
 
     public List<Order> getOrdersByUserId(int userId) {
-        try {
+        try { //http://localhost:9093/orders/user/{id}
             String url = orderServiceUrl + "/user/" + userId;
             ResponseEntity<List<Order>> response = restTemplate.exchange(
                     url,

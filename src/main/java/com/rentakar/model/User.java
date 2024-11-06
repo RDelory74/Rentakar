@@ -3,10 +3,10 @@ package com.rentakar.model;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import org.springframework.cglib.core.Local;
+
 
 import java.time.LocalDate;
-import java.util.Date;
+
 
 
 //@JsonFilter("monFiltreDynamique")

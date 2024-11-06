@@ -5,6 +5,7 @@ import com.rentakar.service.UserService;
 import com.rentakar.model.User;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -44,6 +45,11 @@ public class UserControler {
     @GetMapping("/{id}/orders")
     public List<Order> orders(@PathVariable int id) {
         return userService.getOrdersByUserId(id);
+    }
+
+    @GetMapping("/users/dateOfBirth/{id}")
+    public LocalDate dateOfBirth(@PathVariable int id) {
+        return userService.getUserDOBById(id);
     }
 
 
