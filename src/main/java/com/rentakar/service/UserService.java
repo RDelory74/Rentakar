@@ -1,16 +1,16 @@
 package com.rentakar.service;
 
-
 import com.rentakar.exceptions.LicenseNotValid;
 import com.rentakar.model.User;
 import com.rentakar.model.Order;
-import com.rentakar.model.Vehicule;
 import com.rentakar.web.dao.UserDao;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -60,8 +60,8 @@ public class UserService {
         return null;
     }
 
-    public LocalDate getUserDOBById(int id){
-        System.out.print("Fetching user DOB for user "+id+" ||");
+    public LocalDate getUserDOBById(int id) {
+        System.out.print("Fetching user DOB for user " + id + " ||");
         return userDao.getDateOfBirth(id);
     }
 
@@ -144,7 +144,7 @@ public class UserService {
             );
             return response.getBody();
         } catch (Exception e) {
-            System.err.println("Erreur lors de la récupération des commandes: " + e.getMessage());
+            System.err.println("Error while fetching orders: " + e.getMessage());
             return Collections.emptyList();
         }
     }
