@@ -66,8 +66,6 @@ public class UserService {
     }
 
 
-
-
     public User saveUser(User user) {
         try {
             if (checkLicence(user)) {
@@ -150,7 +148,6 @@ public class UserService {
             return Collections.emptyList();
         }
     }
-
 
 
 }
