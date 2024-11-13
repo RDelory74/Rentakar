@@ -28,10 +28,11 @@ public class UserService {
     private final UserDao userDao;
     private final RestTemplate restTemplate;
 
-    @Value("${service.order.url}")
+    //@Value("${service.order.url}")
+    @Value("${service.order.url:OrderRentakar}")
     private String orderServiceUrl;
 
-    @Value("${service.vehicle.url}")
+    @Value("${service.order.url:VehiculeRentakar}")
     private String vehicleServiceUrl;
 
     @Value("${service.license.url}")
@@ -90,6 +91,7 @@ public class UserService {
             updatedUser.setUsername(user.getUsername());
             updatedUser.setLicenceid(user.getLicenceid());
             updatedUser.setDateOfBirth(user.getDateOfBirth());
+            updatedUser.setEmail(user.getEmail());
             try {
                 if (checkLicence(updatedUser)) {
                     System.out.println("License n° " + user.getLicenceid() + " Accepted ||");
@@ -133,7 +135,7 @@ public class UserService {
 
 
     public List<Order> getOrdersByUserId(int userId) {
-        try { //http://localhost:9093/orders/user/{id}
+        try {
             String url = orderServiceUrl + "/user/" + userId;
             ResponseEntity<List<Order>> response = restTemplate.exchange(
                     url,
