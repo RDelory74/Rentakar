@@ -29,10 +29,10 @@ public class UserService {
     private final RestTemplate restTemplate;
 
     //@Value("${service.order.url}")
-    @Value("${service.order.url:OrderRentakar}")
+    @Value("${service.order.url}")
     private String orderServiceUrl;
 
-    @Value("${service.order.url:VehiculeRentakar}")
+    @Value("${service.vehicle.url}")
     private String vehicleServiceUrl;
 
     @Value("${service.license.url}")
