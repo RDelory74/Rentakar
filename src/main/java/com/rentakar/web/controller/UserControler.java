@@ -9,6 +9,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @RestController
+@CrossOrigin
 public class UserControler {
 
     private final UserService userService;
@@ -36,7 +37,7 @@ public class UserControler {
     public User updateUser(@PathVariable int id, @RequestBody User user) {
         return userService.updateUserById(id, user);
     }
-    @DeleteMapping("user/{id}")
+    @DeleteMapping("users/{id}")
     public User deleteUser(@PathVariable int id) {
         userService.deleteUser(id);
         return null;
